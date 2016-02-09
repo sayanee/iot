@@ -1,3 +1,5 @@
+![](door_bell.jpg)
+
 # Door bell
 
 > Send an IFTTT notification on your mobile when the door bell is pressed
