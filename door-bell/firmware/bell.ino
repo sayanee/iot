@@ -1,6 +1,8 @@
-/* firmware for Particl Photon */
+/* Firmware to flash on Particle Photon */
+
 void setup() {
   pinMode(D1, INPUT_PULLUP);
+  pinMode(D0, INPUT_PULLDOWN);
 }
 
 void loop() {
