@@ -1,21 +1,34 @@
-/* Firmware to flash on Particle Photon */
+// This #include statement was automatically added by the Particle IDE.
+#include "clickButton/clickButton.h"
 
-void setup() {
-  pinMode(D1, INPUT_PULLUP);
-  pinMode(D0, INPUT_PULLDOWN);
+int LED = D7;                      
+int bellValue = 0;                       
+char pubString[40];
+ClickButton button(D0, HIGH);
+
+void setup()
+{
+  pinMode(LED, OUTPUT);   
+  pinMode(D0, INPUT); 
+  
+  button.debounceTime   = 20;   // Debounce timer in ms
+  button.multiclickTime = 250;  // Time limit for multi clicks
+  button.longClickTime  = 1000; // time until "held-down clicks" register
 }
 
-void loop() {
-  delay(1500);
+void loop()
+{
+  button.Update();
 
-  if (digitalRead(D1) == HIGH) {
-    System.sleep(D0, RISING);
-
-    while (Particle.connected() != true) {
-      delay(50);
-    }
-
-    delay(1000);
-    Particle.publish("bell");
+  if (button.clicks != 0) {
+    bellValue = button.clicks;
+    sprintf(pubString, "%d", bellValue);
+    Particle.publish("bell", pubString);
+    digitalWrite(LED, HIGH);
+  } else {
+    digitalWrite(LED, LOW);  
   }
+  
+  bellValue = 0;
+  delay(5);
 }
